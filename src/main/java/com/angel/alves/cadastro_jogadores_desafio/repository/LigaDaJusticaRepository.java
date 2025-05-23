@@ -18,7 +18,7 @@ import java.util.List;
 public class LigaDaJusticaRepository implements CodenameRepository {
 
     @Override
-    public CodenameDTO getCodenames() throws JsonProcessingException {
+    public CodenameDTO searchCodenames() throws JsonProcessingException {
 
         var codenames = RestClient.builder()
                 .baseUrl(CodenameGroup.LIGA_DA_JUSTICA.getUri()).build().get().retrieve().body(String.class);

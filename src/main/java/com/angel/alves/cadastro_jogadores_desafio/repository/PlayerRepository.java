@@ -1,9 +1,12 @@
 package com.angel.alves.cadastro_jogadores_desafio.repository;
 
 
+import com.angel.alves.cadastro_jogadores_desafio.model.CodenameGroup;
 import com.angel.alves.cadastro_jogadores_desafio.model.Player;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class PlayerRepository {
@@ -26,6 +29,19 @@ public class PlayerRepository {
                 .param("codenameGroup", player.codenameGroup().name())
                 .update();
         return player;
+    }
+
+    public List<String> listCodenamesInUse(CodenameGroup codenameGroup) {
+        return jdbcClient.sql("SELECT distinct(codinome) FROM JOGADORES WHERE grupo_codinome = :codenameGroup")
+                .param("codenameGroup", codenameGroup.name())
+                .query(String.class)
+                .list();
+    }
+
+    public List<Player> listPlayers() {
+        return jdbcClient.sql("SELECT * FROM JOGADORES ORDER BY LOWER(name), id")
+                .query(Player.class)
+                .list();
     }
 
 }

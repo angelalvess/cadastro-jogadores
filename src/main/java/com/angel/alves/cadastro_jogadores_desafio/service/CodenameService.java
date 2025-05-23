@@ -1,7 +1,9 @@
 package com.angel.alves.cadastro_jogadores_desafio.service;
 
 
+import com.angel.alves.cadastro_jogadores_desafio.exception.UnavailableCodenameException;
 import com.angel.alves.cadastro_jogadores_desafio.model.CodenameGroup;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,22 +11,34 @@ import java.util.List;
 @Service
 public class CodenameService {
 
+    private final CodenameRepositoryFactory codenameRepositoryFactory;
 
-    public String generateCodename(CodenameGroup  codenameGroup, List<String> codenamesInUse){
-        // 1 - listar disponiveis
-        // 2 - regra codinomes indisponeis
-        // 3 - sortear um
-
-        return "aa";
+    public CodenameService(CodenameRepositoryFactory codenameRepositoryFactory) {
+        this.codenameRepositoryFactory = codenameRepositoryFactory;
     }
 
-    public List<String> CodenamesAvailable(CodenameGroup  codenameGroup, List<String> codenamesInUse){}
-        // pegar todos codinomes de um grupo a partir do metodo abaixo
-        // filtrar todos codinomes com os codinomes em uso deixando so os disponveis
-        // retornar disponveis
-    public List<String> allCodenames(CodenameGroup  codenameGroup){
-        // pegar todos codinomes de um determinado grupo
+    public String generateCodename(CodenameGroup codenameGroup, List<String> codenamesInUse) throws JsonProcessingException {
+        var availableCodenames = codenamesAvailable(codenameGroup, codenamesInUse);
+
+        if (availableCodenames.isEmpty()){
+            throw new UnavailableCodenameException("There are no codenames available for" + codenameGroup.getName());
+        }
+
+        return drawCodename(availableCodenames);
     }
 
+    public List<String> codenamesAvailable(CodenameGroup  codenameGroup, List<String> codenamesInUse) throws JsonProcessingException {
+        var codenames = allCodenames(codenameGroup);
+        return codenames.stream().filter(codename-> !codenamesInUse.contains(codename)).toList();
+    }
+
+    public List<String> allCodenames(CodenameGroup codenameGroup  ) throws JsonProcessingException {
+        var codenames = codenameRepositoryFactory.create(codenameGroup);
+        return codenames.searchCodenames().getCodenames();
+    }
+
+    private String drawCodename(List<String> codenames){
+        return codenames.get((int) (Math.random() * codenames.size()));
+    }
 
 }
