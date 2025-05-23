@@ -17,7 +17,7 @@ public class VingadoresRepository implements CodenameRepository {
 
 
     @Override
-    public CodenameDTO getCodenames() throws JsonProcessingException {
+    public CodenameDTO searchCodenames() throws JsonProcessingException {
 
         var codenames = RestClient.builder().defaultHeader(HttpHeaders.ACCEPT, MediaType.TEXT_PLAIN_VALUE)
                 .baseUrl(CodenameGroup.VINGADORES.getUri()).build().get().retrieve().body(String.class);
