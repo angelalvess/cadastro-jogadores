@@ -1,7 +1,7 @@
 package com.angel.alves.cadastro_jogadores_desafio.repository;
 
 
-import com.angel.alves.cadastro_jogadores_desafio.model.CodenameGroup;
+import com.angel.alves.cadastro_jogadores_desafio.model.GrupoCodinome;
 import com.angel.alves.cadastro_jogadores_desafio.model.Player;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
@@ -20,20 +20,21 @@ public class PlayerRepository {
     public Player save(Player player) {
         jdbcClient.sql("""
                          INSERT INTO JOGADORES (name, email, telephone, codinome, grupo_codinome)
-                         VALUES (:name, :email, :telephone, :codename, :codenameGroup)
+                         VALUES (:name, :email, :telephone, :codinome, :grupoCodinome)
                         """)
                 .param("name", player.name())
                 .param("email", player.email())
                 .param("telephone", player.telephone())
-                .param("codename()", player.codename())
-                .param("codenameGroup", player.codenameGroup().name())
+                .param("codinome", player.codinome())
+                .param("grupoCodinome", player.grupoCodinome().name())
                 .update();
         return player;
     }
 
-    public List<String> listCodenamesInUse(CodenameGroup codenameGroup) {
-        return jdbcClient.sql("SELECT distinct(codinome) FROM JOGADORES WHERE grupo_codinome = :codenameGroup")
-                .param("codenameGroup", codenameGroup.name())
+
+    public List<String> listCodenamesInUse(GrupoCodinome grupoCodinome) {
+        return jdbcClient.sql("SELECT distinct(codinome) FROM JOGADORES WHERE grupo_codinome = :grupoCodinome")
+                .param("grupoCodinome", grupoCodinome.name())
                 .query(String.class)
                 .list();
     }
