@@ -1,10 +1,20 @@
 package com.angel.alves.cadastro_jogadores_desafio.model;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.validation.annotation.Validated;
+
+@Validated
 public record Player(
-        String name,
-        String email,
+        @NotBlank String name,
+        @NotBlank @Email String email,
         String telephone,
-        String codename,
-        CodenameGroup codenameGroup
+        String codinome,
+        @NotNull GrupoCodinome grupoCodinome
 ) {
+
+    public Player withCodinome(String codinome) {
+        return new Player(name, email, telephone, codinome, grupoCodinome);
+    }
 }
