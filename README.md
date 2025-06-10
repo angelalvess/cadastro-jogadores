@@ -2,7 +2,7 @@
   Desafio Cadastro Jogadores
 </h1>
 
-Esse demonstra a resolução desse [desafio](https://github.com/uolhost/test-backEnd-Java.git) que propõe a criação de um sistema de cadastro de jogadores.
+Esse projeto demonstra a resolução desse [desafio](https://github.com/uolhost/test-backEnd-Java.git) que propõe a criação de um sistema de cadastro de jogadores.
 
 ## Tecnologias
 
