@@ -25,7 +25,8 @@ Esse demonstra a resolução desse [desafio](https://github.com/uolhost/test-bac
 
 O projeto foi elaborado seguindo a arquitetura sugerida no desafio, conforme imagem abaixo:
 
-![Arquitetura](.github/arquitetura.png)
+![image](https://github.com/user-attachments/assets/96418ee5-0f84-45ea-92bd-42804b17a312)
+
 
 Algumas mudanças poderiam melhorar ainda mais a arquitetura do projeto atual:
 
